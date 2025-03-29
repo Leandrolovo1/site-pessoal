@@ -1,0 +1,57 @@
+
+    a:link{
+        color: white;
+        text-decoration: none;
+    }
+    a:hover{
+        color: rgb(51, 168, 223);
+    }
+    a:visited {
+        color: white;
+    }
+    img{
+        width: 80px
+    }
+    body {
+        
+        background-attachment: fixed;
+        background-image: url(https://gileduardo.com.br/ifpr/dw/img/background.png);
+        background-size: cover;
+    }
+    div {
+        background-color: rgb(2, 2, 164);
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 45px;
+    }
+    table {
+        background-color: rgb(2, 2, 164);
+        margin: auto;
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        padding: 100px;
+        border: 0px solid white;
+        width: 50%;
+        border-collapse: collapse;
+    }
+    td{
+        font-size:300%;
+        height:70%;
+        text-align: center;
+    }
+    h1
+    {
+        font-size: 60px;
+        color: rgb(2, 2, 164);
+    }
+    li{
+        font-size: 20px;
+        color: rgb(2, 2, 164);
+    }
+
+    *{
+        font-family: Arial, sans-serif;
+        text-align: left;
+    }
