@@ -63,10 +63,18 @@ header a{
         flex-direction: column;
         align-items: center;
     }
-    header nav ul li{
-        padding: 20 20px;
-        width: 24%;
+    header nav ul {
+        display: flex; /* Usa flexbox para centralizar */
+        flex-direction: column; /* Empilha os itens verticalmente */
+        align-items: center; /* Centraliza os itens no eixo horizontal */
+        padding: 0;
+        margin: 0;
+    }
 
+    header nav ul li {
+        width: auto; /* Remove largura fixa */
+        padding: 10px 0; /* Espaçamento entre os itens */
+        text-align: center; /* Centraliza o texto */
     }
     header .btn-contato button{
         padding: 10px 20px;
