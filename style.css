@@ -58,7 +58,7 @@ header a{
     transition: 0.4s;
     display: inline-block;
 }
-@media (max-width: 768px){
+@media (max-width: 480px){
     header > .interface{
         flex-direction: column;
         align-items: center;
