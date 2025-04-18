@@ -11,6 +11,11 @@
 }
 /*ESTILO DO CORPO*/
 
+video {
+    display: block;
+    margin: 0 auto; /* Centraliza horizontalmente */
+}
+
 @keyframes aura-animation {
     0% {
         box-shadow: 0 0 20px 10px rgba(31, 224, 208, 0.8);
