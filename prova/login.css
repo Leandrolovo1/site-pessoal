@@ -1,0 +1,41 @@
+
+
+@media screen and (max-width: 720px) {
+    img {
+        display: none;
+    }
+}
+a
+{
+    text-decoration: none;
+}
+table, th, td{
+    border:0px solid;
+}
+tr{
+    height: 100%;
+}
+svg{
+    display: block;
+    margin: center auto;
+    margin: 0 10px;
+}
+th{
+    padding-right: 100px;
+    align-items: center;
+}
+
+table.full{
+    display: block;
+    width: 100%;
+    padding: 20px;
+    
+}
+table.colap
+{
+    border-collapse: collapse;
+}
+table {
+    width: 100%;
+    height: 100%;
+}

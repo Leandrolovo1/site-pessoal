@@ -1,0 +1,94 @@
+body{
+    background-color: rgb(1, 1, 139);
+}
+table{
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    overflow: hidden;
+
+    
+}
+td {
+    text-align: center;
+    padding: 35px;
+    font-size: 25px;
+
+}
+h2{
+    text-align: center;
+    color: rgb(180, 8, 8);
+    font-size: 30px;
+}
+th{
+    
+    justify-content: center;
+    font-size: 25px;
+    padding: 35px;
+    animation-name: cores;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+@keyframes cores{
+    0%{color: darkblue;left: 0px; top:0px;}
+    25%{color: lightblue;left: 200px; top:0px;}
+    50%{color: darkred;left: 200px; top:200px;}
+    75%{color: darkgoldenrod;left: 0px; top:200px;}
+
+}
+
+.aviao{
+    animation-name: movimento;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    position:absolute;
+    transform: rotate(90deg);
+
+}
+.aviao2{
+    animation-name: movimento2;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    position:absolute;
+    transform: rotate(-90deg);
+}
+@keyframes movimento{
+    
+    0% {
+        left: 0%; /* Início da tabela */
+        transform: rotate(90deg);
+    }
+    50% {
+        left: 48%; /* Meio da tabela */
+        transform: rotate(-90deg);
+    }
+    100% {
+        left: 0%; /* Final da tabela */
+        transform: rotate(90deg);
+    }
+}
+@keyframes movimento2{
+    
+    0% {
+        left: 100%; /* Início da tabela */
+        transform: rotate(-90deg);
+    }
+    50% {
+        left: 52%; /* Meio da tabela */
+        transform: rotate(90deg);
+    }
+    100% {
+        left: 100%; /* Final da tabela */
+        transform: rotate(-90deg);
+    }
+}
+
+@media screen and (max-width: 720px) {
+    /* Ocultar todas as colunas específicas */
+    .country, .agent{
+        display: none;
+    }
+}
