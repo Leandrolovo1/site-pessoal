@@ -13,6 +13,8 @@
 
 video {
     display: block;
+    max-width: 100%; /* Garante que o vídeo não ultrapasse a largura do contêiner */
+    height: auto; /* Mantém a proporção do vídeo */
     margin: 0 auto; /* Centraliza horizontalmente */
 }
 
@@ -94,6 +96,9 @@ header a{
     display: inline-block;
 }
 @media (max-width: 480px){
+    video {
+        width: 90%; /* Ajusta a largura do vídeo para telas menores */
+    }
     body{
         height: 100vh;
         margin: 0px;
