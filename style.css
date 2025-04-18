@@ -50,15 +50,22 @@ ul{
     list-style: none;
     justify-content: center;;
 }
+a{
+    transition: 0.4s;
+
+}
 header a{
     text-decoration: none;
     color: rgb(87, 87, 87);
     font-size: 1.5rem;
     font-weight: 700;
-    transition: 0.4s;
     display: inline-block;
 }
 @media (max-width: 480px){
+    body{
+        height: 100vh;
+        margin: 0px;
+    }
     header > .interface{
         flex-direction: column;
         align-items: center;
@@ -81,7 +88,7 @@ header a{
         font-size: 16px;
     }
 } 
-header a:hover{
+a:hover{
     color: rgb(255, 255, 255);
     transform: scale(1.1);
 }
