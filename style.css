@@ -148,7 +148,7 @@ header a {
   display: inline-block;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   video {
     width: 90%; /* Ajusta a largura do vídeo para telas menores */
   }
