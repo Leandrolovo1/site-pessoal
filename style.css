@@ -176,6 +176,9 @@ header a {
     padding: 10px 20px;
     font-size: 16px;
   }
+  .btn-contato {
+    margin-bottom: 20px; /* Adiciona espaço abaixo do botão */
+  }
 }
 a:hover {
   color: rgb(255, 255, 255);
