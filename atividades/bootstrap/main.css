@@ -1,0 +1,31 @@
+.container-fluid {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    height: 100vh; /* 100% da altura da viewport */
+    width: 100vw; /* 100% da largura da viewport */
+    margin: 0; /* Remove margem padrão, se houver */
+    padding: 0; /* Remove padding padrão, se houver */
+    overflow: hidden; /* Remove qualquer rolagem */
+}
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0; /* Remove margem padrão, se houver */
+    padding: 0; /* Remove padding padrão, se houver */
+    overflow-x: hidden; /* Remove qualquer rolagem horizontal */
+    overflow-y: hidden; /* Remove qualquer rolagem vertical */
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto; /* Remove margem padrão, se houver */
+    padding: 0; /* Remove padding padrão, se houver */
+}
