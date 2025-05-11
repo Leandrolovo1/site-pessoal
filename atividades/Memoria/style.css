@@ -17,7 +17,7 @@
     }
 
     header {
-      background: linear-gradient(to right, #002f6c, #8bc6ec);
+      background: linear-gradient(to right, #dc0303, #a46e4a);
       color: white;
       padding: 20px 0;
       text-align: center;
@@ -55,7 +55,7 @@
       border-radius: 20px;
       box-shadow: 5px 5px 10px #0003;
       overflow: hidden;
-      border: 3px solid #0033cc;
+      border: 3px solid #0014cc;
       width: 300px;
       background: white;
       transition: transform 0.3s;
@@ -72,7 +72,7 @@
     }
 
     footer {
-      background: linear-gradient(to right, #002f6c, #8bc6ec);
+      background: linear-gradient(to right, #6c2400, #a33e3e);
       color: white;
       text-align: center;
       padding: 15px 0;
