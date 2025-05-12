@@ -79,7 +79,7 @@
       padding: 15px 0;
       font-size: 1em;
     }
-    @media screen and (min-width: 390px) and (max-width: 1024px) {
+    @media screen and (max-width: 1128px) {
       header {
         font-size: 4em; 
 
