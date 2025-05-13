@@ -2,6 +2,7 @@ body{
     background-attachment: fixed;
     background-image: url("background3.jpg");
     background-size: cover;
+    overflow: hidden;
 }
 .nave{
     max-width: 100px;
@@ -24,3 +25,32 @@ body{
     width: auto;
     height: auto;
 }
+/* Adicione ao seu style.css
+.alien {
+        transition: top 0.25s cubic-bezier(.68,-0.55,.27,1.55), left 0.25s;
+}
+@keyframes alien-entrada {
+    from { transform: translateY(-80px) scale(0.7); opacity: 0; }
+    to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+#fase-overlay {
+    transition: opacity 0.7s;
+    opacity: 0;
+    display: flex !important;
+}
+#fase-overlay.mostrar {
+    opacity: 1;
+}
+ Adicione ao seu style.css 
+@keyframes explodir {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
+}
+.alien.explodir {
+    animation: explodir 0.3s forwards;
+}
+.missil-disparo img {
+    filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px #0ff);
+    transition: filter 0.2s;
+}*/

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap - CDN</title>
+    <title>SpaceInvaders</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -18,20 +18,27 @@
     <div class="container-fluid px-0 h-100">
         <div class="row g-0 h-50">
             <div class="col-2 h-100">
-                <div class="col text-white bg-dark border border-white d-flex flex-column justify-content-center align-items-center h-50">
+                <div
+                    class="col text-white bg-dark border border-white d-flex flex-column justify-content-center align-items-center h-50">
                     <div class="row d-flex align-items-center mb-3">
                         <img class="clock me-2" src="clock.png" alt="">
-                        <div class="col-4"><h3 id="v">0</h3></div>
+                        <div class="col-4">
+                            <h3 id="v">0</h3>
+                        </div>
                     </div>
 
                     <div class="row d-flex align-items-center mb-3">
                         <img class="missil me-3" src="nave.png" alt="">
-                        <div class="col-4"><h3>LIFE:3</h3></div>
+                        <div class="col-4">
+                            <h3>LIFE:<span id="vidas-contador">3</span></h3>
+                        </div>
                     </div>
 
                     <div class="row d-flex align-items-center ">
                         <img class="missil" style="max-width: 75px;" src="alien.png" alt="">
-                        <div class="col-4"><h3>ALIEN:0</h3></div>
+                        <div class="col-4">
+                            <h3>ALIEN:<span id="aliens-contador">0</span></h3>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -46,17 +53,39 @@
             </div>
         </div>
     </div>
-    <div id="pause-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); color: white; z-index: 9999; justify-content: center; align-items: center; text-align: center;">
+    <div id="pause-overlay"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); color: white; z-index: 9999; justify-content: center; align-items: center; text-align: center;">
         <h1>Jogo Pausado</h1>
+    </div>
+    <div id="fase-overlay"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0, 0, 0, 0.897); color:white; z-index:9998; justify-content:center; align-items:center; text-align:center;">
+        <h1 id="fase-texto"></h1>
+    </div>
+    <!-- Aliens no topo do campo de jogo -->
+    <div id="aliens-area"
+        style="position:absolute; top:0; left:0; width:100%; height:50%; pointer-events:none; z-index:5;">
+        <!-- Os aliens serão criados via JS -->
     </div>
 </body>
 <script type="text/javascript">
     let val = 0;
     let id;
     let isPaused = false; // Variável para controlar o estado do jogo
+    let aliensInterval;
+    let gameOver = false;
+    let vidas = 3;
+    let aliensMortos = 0;
+    let podeAtirar = true;
+    const tempoEntreDisparos = 400; // tempo em milissegundos (exemplo: 300ms)
+    let fase = 1;
+    const maxFase = 4;
+    let alienDirecao = 1;
+    let alienPasso = 0;
+    let misseisAtivos = 0;
+    const maxMisseis = 2;
 
     // FUNCTION: Atualiza o contador de tempo
-    function add() { 
+    function add() {
         val++;
         const hours = Math.floor(val / 3600); // Calcula as horas
         const minutes = Math.floor((val % 3600) / 60); // Calcula os minutos
@@ -79,7 +108,7 @@
 
     // MOVIMENTO DA NAVE
     const nave = document.querySelector(".nave"); // Seleciona a nave
-    let position = 0; // Define a posição inicial da nave
+    let positionPercent = 50; // posição inicial em %
 
     // Adiciona um evento de teclado para mover a nave
     document.addEventListener("keydown", (event) => {
@@ -91,18 +120,23 @@
 
         if (isPaused) return; // Não permite movimento se o jogo estiver pausado
 
-        const step = 10; // Define o número de pixels que a nave se move a cada tecla pressionada
-        const containerWidth = window.innerWidth; // Largura total da janela
-        const naveWidth = nave.offsetWidth; // Largura da nave
+        const stepPercent = 2; // Quantos % a nave anda por vez
+        const naveWidthPercent = (nave.offsetWidth / window.innerWidth) * 100;
 
         if (event.key === "ArrowRight") {
-            // Move para a direita apenas se não atingir o limite direito
-            position += step;
-            nave.style.transform = `translateX(${position}px)`;
+            if (positionPercent + naveWidthPercent < 100) {
+                positionPercent += stepPercent;
+                if (positionPercent + naveWidthPercent > 100) {
+                    positionPercent = 100 - naveWidthPercent;
+                }
+                nave.style.transform = `translateX(${positionPercent - 50}vw)`;
+            }
         } else if (event.key === "ArrowLeft") {
-            // Move para a esquerda apenas se não atingir o limite esquerdo
-            position -= step;
-            nave.style.transform = `translateX(${position}px)`;
+            if (positionPercent > 0) {
+                positionPercent -= stepPercent;
+                if (positionPercent < 0) positionPercent = 0;
+                nave.style.transform = `translateX(${positionPercent - 50}vw)`;
+            }
         }
     });
 
@@ -113,17 +147,281 @@
         if (!isPaused) {
             // Pausa o jogo
             stopCounter();
+            clearInterval(aliensInterval); // Pausa os aliens
             isPaused = true;
             pauseOverlay.style.display = "flex";
         } else {
             // Retoma o jogo
             startCounter();
+            aliensInterval = setInterval(moverAliens, Math.max(300 - (fase - 1) * 60, 60)); // Retoma os aliens
             isPaused = false;
             pauseOverlay.style.display = "none";
         }
     }
 
+    // Atualiza os contadores na tela
+    function atualizarPainel() {
+        document.getElementById("vidas-contador").textContent = vidas;
+        document.getElementById("aliens-contador").textContent = aliensMortos;
+    }
+
+    // Função para reiniciar o jogo
+    function reiniciarJogo() {
+        //vidas = 3; // Volta com todas as vidas
+        aliensMortos = 0;
+        gameOver = false;
+        isPaused = false;
+        atualizarPainel();
+
+        // Remove todos os aliens antigos
+        document.querySelectorAll('.alien').forEach(a => a.remove());
+
+        // Remove todos os mísseis antigos
+        document.querySelectorAll('.missil-disparo').forEach(m => m.remove());
+        misseisAtivos = 0; // Zera o contador de mísseis ativos
+
+        // Cria 3 linhas de 8 aliens
+        const aliensArea = document.getElementById("aliens-area");
+        aliensArea.innerHTML = "";
+        const linhas = 1;
+        const colunas = 3;
+        for (let l = 0; l < linhas; l++) {
+            for (let c = 0; c < colunas; c++) {
+                const left = 30 + c * (30 / (colunas - 1));
+                const top = -32 + l * 70;
+                aliensArea.innerHTML += `<div class="alien" style="position:absolute; left:${left}%; top:${top}px;"><img src="alien.png" style="width:70px;"></div>`;
+            }
+        }
+
+        // Troca o fundo conforme a fase
+        if (fase === 2) {
+            document.body.style.background = "url('background.png') center center / cover no-repeat";
+        } else if (fase === 3) {
+            document.body.style.background = "url('background2.jpg') center center / cover no-repeat";
+        } else if (fase === 4) {
+            document.body.style.background = "url('background4.jpg') center center / cover no-repeat";
+        } else {
+            document.body.style.background = ""; // Fase 1 ou padrão
+        }
+
+        // Esconde overlay de game over
+        const pauseOverlay = document.querySelector("#pause-overlay");
+        pauseOverlay.querySelector("h1").textContent = "Jogo Pausado";
+        pauseOverlay.style.display = "none";
+
+        // Reinicia contador
+        val = 0;
+        document.querySelector("#v").textContent = "00:00:00";
+        stopCounter(); // <-- Pare o contador antigo antes de iniciar um novo!
+        startCounter();
+
+        // Reinicia movimento dos aliens, pode acelerar conforme a fase
+        clearInterval(aliensInterval);
+        aliensInterval = setInterval(moverAliens, Math.max(900 - (fase - 1) * 200, 200));
+    }
+
+    // Função para mostrar Game Over
+    function mostrarGameOver() {
+        const pauseOverlay = document.querySelector("#pause-overlay");
+        pauseOverlay.querySelector("h1").textContent = "Game Over";
+        pauseOverlay.style.display = "flex";
+        stopCounter();
+        isPaused = true;
+        gameOver = true;
+        fase = 1; // Volta para fase 1 ao reiniciar após Game Over
+    }
+
+    // Função para mover aliens
+    function moverAliens() {
+        if (gameOver) return;
+        alienPasso++;
+        let vidasPerdidas = 0;
+        let aliensParaRemover = [];
+
+        document.querySelectorAll('.alien').forEach(alien => {
+            let topAtual = parseInt(alien.style.top) || 10;
+            topAtual += 20;
+            alien.style.top = topAtual + "px";
+
+            // Verifica colisão com a nave
+            const naveRect = nave.getBoundingClientRect();
+            const alienRect = alien.getBoundingClientRect();
+            if (
+                alienRect.bottom >= naveRect.top &&
+                alienRect.left < naveRect.right &&
+                alienRect.right > naveRect.left
+            ) {
+                aliensParaRemover.push(alien);
+                vidasPerdidas++;
+            }
+
+            // Verifica se o alien saiu da tela por baixo
+            if (alienRect.top > window.innerHeight - 45) {
+                aliensParaRemover.push(alien);
+                vidasPerdidas++;
+            }
+        });
+
+        // Remove todos os aliens que colidiram ou saíram da tela
+        aliensParaRemover.forEach(alien => alien.remove());
+
+        // Diminui as vidas de acordo com quantos aliens saíram ou colidiram
+        if (vidasPerdidas > 0) {
+            vidas -= vidasPerdidas;
+            if (vidas < 0) vidas = 0;
+            atualizarPainel();
+
+            if (vidas > 0) {
+                mostrarFaseOverlay(`Fase ${fase}`);
+                setTimeout(() => {
+                    esconderFaseOverlay();
+                    reiniciarJogo(); // Reinicia a mesma fase mantendo as vidas restantes
+                }, 500);
+                return; // Sai da função para evitar passar de fase ou game over neste ciclo
+            } else {
+                gameOver = true;
+                clearInterval(aliensInterval);
+                mostrarGameOver();
+                return;
+            }
+        }
+
+        // Se não há mais aliens e ainda tem vidas, avança de fase
+        if (document.querySelectorAll('.alien').length === 0 && vidas > 0) {
+            if (fase < maxFase) {
+                fase++;
+                mostrarFaseOverlay(`Fase ${fase}`);
+                setTimeout(() => {
+                    esconderFaseOverlay();
+                    reiniciarJogo();
+                }, 500);
+            } else {
+                mostrarFaseOverlay("Parabéns! Você venceu todas as fases!");
+                setTimeout(() => {
+                    esconderFaseOverlay();
+                    fase = 1;
+                    reiniciarJogo();
+                }, 1000);
+            }
+            clearInterval(aliensInterval);
+        }
+    }
+
+    // Função para lançar míssil
+    function lancarMissil() {
+        if (!podeAtirar || misseisAtivos >= maxMisseis || gameOver) return;
+        podeAtirar = false;
+        setTimeout(() => { podeAtirar = true; }, tempoEntreDisparos);
+        misseisAtivos++;
+
+        const missil = document.createElement("div");
+        missil.classList.add("missil-disparo");
+        missil.innerHTML = `<img src="missil.png" style="width:20px;">`;
+
+        const naveRect = nave.getBoundingClientRect();
+        const gameArea = document.querySelector(".row.g-0.h-50 .col.d-flex");
+        const gameRect = gameArea.getBoundingClientRect();
+
+        missil.style.position = "absolute";
+        missil.style.left = (naveRect.left - gameRect.left + nave.offsetWidth / 2 - 10) + "px";
+        missil.style.bottom = "10%";
+        missil.style.zIndex = "10";
+
+        gameArea.appendChild(missil);
+
+        let posPercent = 0;
+        let missilSaiuOuAcertou = false;
+        const anim = setInterval(() => {
+            posPercent += 2; // AUMENTE para mais rápido, DIMINUA para mais devagar
+            missil.style.bottom = posPercent + "%";
+
+            // Verifica colisão com aliens
+            const missilRect = missil.getBoundingClientRect();
+            document.querySelectorAll('.alien').forEach(alien => {
+                const alienRect = alien.getBoundingClientRect();
+                if (
+                    missilRect.left < alienRect.right &&
+                    missilRect.right > alienRect.left &&
+                    missilRect.top < alienRect.bottom &&
+                    missilRect.bottom > alienRect.top
+                ) {
+                    alien.classList.add("explodir");
+                    setTimeout(() => {
+                        alien.remove();
+                    }, 50); // Apenas remove o alien, sem lógica de fase aqui!
+                    missil.remove();
+                    clearInterval(anim);
+                    if (!missilSaiuOuAcertou) {
+                        misseisAtivos--;
+                        missilSaiuOuAcertou = true;
+                    }
+                    aliensMortos++;
+                    atualizarPainel();
+                }
+            });
+
+            // Se o míssil saiu da tela sem acertar alien
+            if (posPercent >= 100 && !missilSaiuOuAcertou) {
+                missil.remove();
+                clearInterval(anim);
+                misseisAtivos--;
+                missilSaiuOuAcertou = true;
+            }
+        }, 27.5); // Diminua para mais rápido, aqui é a velocidade do missil
+    }
+
+    // Evento para lançar míssil
+    document.addEventListener("keydown", (event) => {
+        if (gameOver) {
+            reiniciarJogo();
+            return;
+        }
+        if (event.code === "Space" && !isPaused) {
+            lancarMissil();
+        }
+    });
+
+    // Função para mostrar overlay de fase
+    function mostrarFaseOverlay(texto) {
+        const overlay = document.getElementById("fase-overlay");
+        document.getElementById("fase-texto").textContent = texto;
+        overlay.classList.add("mostrar");
+        overlay.style.display = "flex";
+    }
+
+    // Função para esconder overlay de fase
+    function esconderFaseOverlay() {
+        const overlay = document.getElementById("fase-overlay");
+        overlay.classList.remove("mostrar");
+        setTimeout(() => { overlay.style.display = "none"; }, 700);
+    }
+
     // Inicia o contador ao carregar a página
-    window.onload = startCounter;
+    window.onload = () => {
+        atualizarPainel();
+        reiniciarJogo(); // Isso garante que os aliens sejam criados ao iniciar o jogo
+    };
+
+    function resetarAliensENave() {
+        // Reseta posição dos aliens
+        const linhas = 1;
+        const colunas = 3; // ou 8, conforme seu jogo
+        const aliensArea = document.getElementById("aliens-area");
+        let i = 0;
+        document.querySelectorAll('.alien').forEach(alien => {
+            const l = Math.floor(i / colunas);
+            const c = i % colunas;
+            const left = 30 + c * (30 / (colunas - 1));
+            const top = -175 + l * 70;
+            alien.style.left = left + "%";
+            alien.style.top = top + "px";
+            i++;
+        });
+
+        // Reseta posição da nave
+        positionPercent = 50;
+        nave.style.transform = `translateX(0vw)`;
+    }
 </script>
+
 </html>
