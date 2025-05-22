@@ -1,9 +1,6 @@
 const data_subjects = []
 
 function addsubject() {
-
-    id = data_subjects.length;
-
     /*
     ------------------------------------------------------------------------
         parte de receber dados do usuario
@@ -41,7 +38,7 @@ function addsubject() {
     const colum_conteudo = document.createElement('td')
 
     //adiciona o texto do numero à variavel 
-    id_colum.textContent = id +1;
+    id_colum.textContent = data_subjects.length;
 
     //adiciona o texto do conteudo à variavel 
     colum_conteudo.textContent = input_descricao.value

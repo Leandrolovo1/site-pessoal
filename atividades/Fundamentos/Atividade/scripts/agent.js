@@ -20,7 +20,7 @@ function addAgent(){
         PARTE QUE INSERE NA TABELA
     ------------------------------
     */
-   const table = document.querySelector('#table_agent')
+    const table = document.querySelector('#table_agent')
 
     const line = document.createElement('tr')
     const columId = document.createElement('td')
