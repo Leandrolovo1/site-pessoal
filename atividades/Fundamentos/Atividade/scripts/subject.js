@@ -18,7 +18,9 @@ function addsubject() {
     const input_descricao = form.querySelector('input[name="descricao"]')
 
     //adiciona esse elemento no array
-    data_subjects.push(input_descricao)
+    subject = {descricao: input_descricao.value};
+    data_subjects.push(subject)
+    
 
     /*
     ------------------------------------------------------------------------
@@ -51,4 +53,25 @@ function addsubject() {
     
     //reseta os campos
     form.reset()
+    addSubjectReport();
+}
+function addSubjectReport() {
+    /*
+    ------------------------------
+        PARTE QUE INSERE NO SELECT
+        ---------------------------
+    */
+    // Obtém referência do formulário
+    form = document.querySelector('#formReport')
+    // Obtém o valor dos campos de entrada
+    const select = document.querySelector('#select_subject');
+    // Cria um elemento <option>
+    const op = document.createElement('option');
+
+    data_subjects.forEach(subject=>{
+        op.textContent = subject.descricao
+        op.value = subject.descricao
+        select.appendChild(op)
+    })
+    console.log(subject.descricao)
 }
