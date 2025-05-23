@@ -42,5 +42,7 @@ function addReport(){
     table.appendChild(line)
     
     form.reset();
+    drawChart();
+
 
 }

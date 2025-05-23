@@ -51,6 +51,7 @@ function addsubject() {
     //reseta os campos
     form.reset()
     addSubjectReport();
+    drawChart();
 }
 function addSubjectReport() {
     /*

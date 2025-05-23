@@ -38,7 +38,9 @@ function addRegional() {
     table.appendChild(line)
     
     form.reset();
-    addAgentRegional()
+    addAgentRegional();
+    drawChart();
+
 }   
 
 function addAgentRegional () {

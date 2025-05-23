@@ -37,7 +37,9 @@ function addAgent(){
     table.appendChild(line)
 
     form.reset();
-     addAgentReport();
+    addAgentReport();
+    drawChart();
+
 }
 
 function addAgentReport () {
