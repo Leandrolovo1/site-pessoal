@@ -29,7 +29,7 @@ function addRegional() {
     const columCidade = document.createElement('td')
 
     columId.textContent = id + 1;
-    columSigla.textContent = inputSigla.value
+    columSigla.textContent = inputSigla.value.toUpperCase()
     columCidade.textContent = inputCidade.value
 
     line.appendChild(columId);
