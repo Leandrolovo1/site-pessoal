@@ -44,5 +44,7 @@ h3 {
 }
 
 h1 {
+  white-space: pre-line;
   color: blue;
+  
 }/*# sourceMappingURL=style.css.map */
