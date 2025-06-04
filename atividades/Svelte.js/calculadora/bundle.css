@@ -8,6 +8,19 @@
     max-width: 320px;
     height: 350px
 }
+/* bundle.css */
+#btn-home {
+    background-color: #ff3e00;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#btn-home:hover {
+    background-color: #ff5722;
+}
 
 button.svelte-8lr8er {
     font-size: 1.5em;
@@ -52,5 +65,29 @@ h1.svelte-8lr8er {
 @media(min-width: 640px) {
     main.svelte-8lr8er {
         max-width: none
+    }
+}
+@media (min-width: 360px) and (max-width: 1024px) {
+    .moldura.svelte-8lr8er {
+        max-width: 400px;
+        height: auto;
+        padding: 2em 1em 1em 1em;
+        margin: 2em auto;
+    }
+    main.svelte-8lr8er {
+        max-width: 350px;
+        padding: 1em;
+    }
+    h1.svelte-8lr8er {
+        font-size: 3em;
+    }
+    button.svelte-8lr8er {
+        width: 48px;
+        height: 48px;
+        font-size: 1.2em;
+    }
+    input.svelte-8lr8er {
+        font-size: 1.1em;
+        padding: 0.4em;
     }
 }
