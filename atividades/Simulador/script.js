@@ -23,18 +23,18 @@ document.querySelectorAll('th').forEach((th) => {
 });
 
 // Gerencia a troca de tamanhos
-document.getElementById('numeros').addEventListener('change', (event) => { 
-    // Adiciona um evento de mudança ao <select> com o ID "numeros".
-    const tamanho = event.target.value + 'px'; 
-    // Obtém o valor selecionado no <select> e adiciona "px" para definir o tamanho.
-    elementosSimulados.forEach(el => { 
-        // Itera sobre todos os elementos simulados.
-        el.style.width = tamanho; 
-        // Define a largura do elemento simulados com o valor selecionado.
-        el.style.height = tamanho; 
-        // Define a altura do elemento simulados com o valor selecionado.
-    });
-});
+const selectTamanho = document.getElementById('numeros');
+const blocos = document.querySelectorAll('.elementos-simulados');
+
+function atualizarTamanho() {
+    const valor = selectTamanho.value + 'px';
+    document.documentElement.style.setProperty('--tam-bloco', valor);
+}
+
+selectTamanho.addEventListener('change', atualizarTamanho);
+
+// Chama ao carregar para garantir o tamanho inicial
+atualizarTamanho();
 
 // Gerencia a troca de formatos (bordas)
 document.querySelectorAll('th').forEach((th) => {

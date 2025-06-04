@@ -1,34 +1,41 @@
-body{
+body {
     background-attachment: fixed;
     background-image: url("background3.jpg");
     background-size: cover;
     overflow: hidden;
+    margin: 0;
+    padding: 0;
 }
-.nave{
+
+.nave {
     max-width: 100px;
     max-height: 100px;
     width: auto;
     height: auto;
 }
+
 .shadow-custom {
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3); /* Aplique a sombra com mais controle */
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
 }
-.clock{
+
+.clock {
     max-width: 70px;
     max-height: 70px;
     width: auto;
     height: auto;
 }
-.missil{
+
+.missil {
     max-width: 55px;
     max-height: 55px;
     width: auto;
     height: auto;
 }
-/* Adicione ao seu style.css
+
 .alien {
-        transition: top 0.25s cubic-bezier(.68,-0.55,.27,1.55), left 0.25s;
+    transition: top 0.25s cubic-bezier(.68,-0.55,.27,1.55), left 0.25s;
 }
+
 @keyframes alien-entrada {
     from { transform: translateY(-80px) scale(0.7); opacity: 0; }
     to   { transform: translateY(0) scale(1); opacity: 1; }
@@ -39,18 +46,68 @@ body{
     opacity: 0;
     display: flex !important;
 }
+
 #fase-overlay.mostrar {
     opacity: 1;
 }
- Adicione ao seu style.css 
+
 @keyframes explodir {
     0% { transform: scale(1); opacity: 1; }
     100% { transform: scale(2); opacity: 0; }
 }
+
 .alien.explodir {
     animation: explodir 0.3s forwards;
 }
+
 .missil-disparo img {
     filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px #0ff);
     transition: filter 0.2s;
-}*/
+}
+
+/* Responsividade */
+@media (max-width:700px) {
+    .nave {
+        max-width: 90px;
+        max-height: 90px;
+    }
+    .clock {
+        max-width: 32px;
+        max-height: 32px;
+    }
+    .missil {
+        max-width: 24px;
+        max-height: 24px;
+    }
+    .alien {
+        max-width: 28px;
+        max-height: 28px;
+    }
+    #fase-overlay {
+        font-size: 0.95em;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 400px) {
+    .nave {
+        max-width: 70px;
+        max-height: 70px;
+    }
+    .clock {
+        max-width: 18px;
+        max-height: 18px;
+    }
+    .missil {
+        max-width: 12px;
+        max-height: 12px;
+    }
+    .alien {
+        max-width: 16px;
+        max-height: 16px;
+    }
+    #fase-overlay {
+        font-size: 0.85em;
+        padding: 4px;
+    }
+}
