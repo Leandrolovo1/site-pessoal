@@ -87,13 +87,13 @@ p {
 
 .formato1 {
   border-radius: 0%;
-  background-color: violet;
+  background-color: #ff6347;
   transition: all 0.3s ease;
 }
 
 .formato2 {
   border-radius: 100%;
-  background-color: violet;
+  background-color: #ff6347;
   transition: all 0.3s ease;
 }
 
